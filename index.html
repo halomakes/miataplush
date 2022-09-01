@@ -1,0 +1,60 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miata Plushie</title>
+</head>
+
+<body>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <model-viewer alt="Miata Plushie" src="miataplush.glb" ar ar-modes="webxr scene-viewer quick-look"
+        environment-image="photostudio.hdr" poster="poster.webp" shadow-intensity="1" camera-controls
+        touch-action="pan-y" auto-rotate auto-rotate-delay="1000"></model-viewer>
+    <span class="top-text caption">Miata Plushie</span>
+    <span class="bottom-text caption">Bottom Text</span>
+
+    <style>
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+        }
+
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .caption {
+            font-family: 'Impact', sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 12vw;
+            color: white;
+            text-shadow:
+                -.4vw -.4vw 0 #000,
+                .4vw -.4vw 0 #000,
+                -.4vw .4vw 0 #000,
+                .4vw .4vw 0 #000;
+        }
+
+        .top-text,
+        .bottom-text {
+            position: fixed;
+            width: 100%;
+            z-index: 999;
+        }
+
+        .top-text {
+            top: 0;
+        }
+
+        .bottom-text {
+            bottom: 0;
+        }
+    </style>
+</body>
+
+</html>
