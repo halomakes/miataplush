@@ -22,22 +22,39 @@
             margin: 0;
         }
 
+        :root {
+            --outline-width: .4vw;
+            --outline-color: #000;
+        }
+
         model-viewer {
             width: 100vw;
             height: 100vh;
         }
 
         .caption {
-            font-family: 'Impact', sans-serif;
+            font-family: 'Impact', 'Anton', sans-serif;
             text-align: center;
             text-transform: uppercase;
             font-size: 12vw;
             color: white;
-            text-shadow:
-                -.4vw -.4vw 0 #000,
-                .4vw -.4vw 0 #000,
-                -.4vw .4vw 0 #000,
-                .4vw .4vw 0 #000;
+
+        }
+
+        @supports (-webkit-text-stroke: 1px black) {
+            .caption {
+                -webkit-text-stroke: var(--outline-width) black;
+            }
+        }
+
+        @supports not (-webkit-text-stroke: 1px black) {
+            .caption {
+                text-shadow:
+                    calc(-1 * var(--outline-width)) 0 var(--outline-color),
+                    var(--outline-width) calc(-1 * var(--outline-width)) 0 var(--outline-color),
+                    calc(-1 * var(--outline-width)) var(--outline-width) 0 var(--outline-color),
+                    var(--outline-width) var(--outline-width) 0 var(--outline-color);
+            }
         }
 
         .top-text,
@@ -45,16 +62,47 @@
             position: fixed;
             width: 100%;
             z-index: 999;
+            opacity: 0;
+            animation-duration: .5s;
+            animation-delay: 1s;
+            animation-fill-mode: forwards;
         }
 
         .top-text {
             top: 0;
+            animation-name: down;
         }
 
         .bottom-text {
             bottom: 0;
+            animation-name: up;
+        }
+
+        @keyframes down {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes up {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </body>
 
 </html>
