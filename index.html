@@ -9,11 +9,22 @@
 
 <body>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <model-viewer alt="Miata Plushie" src="miataplush.glb" ar ar-modes="webxr scene-viewer quick-look"
-        environment-image="photostudio.hdr" poster="poster.webp" shadow-intensity="1" camera-controls
-        touch-action="pan-y" auto-rotate auto-rotate-delay="1000"></model-viewer>
-    <span class="top-text caption" contenteditable="true">Miata Plushie</span>
-    <span class="bottom-text caption" contenteditable="true">Bottom Text</span>
+    <div class="plushie-viewer">
+        <model-viewer alt="Miata Plushie" src="miataplush.glb" data-src="this.getUrl()" ar
+            ar-modes="webxr scene-viewer quick-look" environment-image="photostudio.hdr" poster="poster.webp"
+            shadow-intensity="1" camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1000">
+        </model-viewer>
+        <span class="top-text caption" contenteditable="true">Miata Plushie</span>
+        <span class="bottom-text caption" contenteditable="true">Bottom Text</span>
+        <div class="color-picker">
+            <span data-class="active" data-class-condition="this.current == 'blue'" style="background-color:#3254cf"
+                onclick="controller.setColor('blue')"></span>
+            <span data-class="active" data-class-condition="this.current == 'green'" style="background-color:#175c1a"
+                onclick="controller.setColor('green')"></span>
+            <span data-class="active" data-class-condition="this.current == 'white'" style="background-color:white"
+                onclick="controller.setColor('white')"></span>
+        </div>
+    </div>
 
     <style>
         body,
@@ -25,6 +36,7 @@
         :root {
             --outline-width: .4vw;
             --outline-color: #000;
+            --color-picker-size: 32px;
         }
 
         model-viewer {
@@ -38,7 +50,7 @@
             text-transform: uppercase;
             font-size: 12vw;
             color: white;
-
+            pointer-events: none;
         }
 
         @supports (-webkit-text-stroke: 1px black) {
@@ -78,6 +90,40 @@
             animation-name: up;
         }
 
+        .color-picker {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .color-picker>span {
+            width: var(--color-picker-size);
+            height: var(--color-picker-size);
+            border-radius: 12%;
+            margin: calc(var(--color-picker-size) * .2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, .4);
+            border: 0px #bbbbbb solid;
+            box-sizing: border-box;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .color-picker>span.active {
+            border-width: 3px;
+        }
+
+        .color-picker>span:hover {
+            transform: scale(1.1);
+        }
+
+        .color-picker>span:active {
+            transform: scale(0.9);
+        }
+
         @keyframes down {
             0% {
                 transform: translateY(-100%);
@@ -103,6 +149,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/gravy-bind/dist.browser/index.js"></script>
+    <script type="text/javascript">
+        class PlushieController {
+            current = 'blue';
+            binder = new GravyBinder(this, document.getElementById('plushie-viewer'))
+            getUrl = () => `./${this.current}.glb`;
+            setColor = (color) => {
+                this.current = color;
+                this.binder.updateOutwardBindings();
+            }
+            constructor() {
+                this.binder.registerOutwardBinding('src', (element, value) => element.src = value);
+            }
+        }
+
+        var controller = new PlushieController();
+    </script>
 </body>
 
 </html>
