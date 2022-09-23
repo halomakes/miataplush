@@ -25,6 +25,8 @@
                 onclick="controller.setColor('white')"></span>
             <span data-class="active" data-class-condition="this.current == 'red'" style="background-color:#d32727"
                 onclick="controller.setColor('red')"></span>
+            <span data-class="active" data-class-condition="this.current == 'black'" style="background-color:#333333"
+                onclick="controller.setColor('black')"></span>
         </div>
     </div>
 
@@ -33,6 +35,7 @@
         html {
             padding: 0;
             margin: 0;
+            overflow: hidden;
         }
 
         :root {
